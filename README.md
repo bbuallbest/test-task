@@ -14,14 +14,14 @@ It could be changed in `/src/main/resources/application.properties` file.
 ```json
 {
   "directory" : {
-    "path" : "C:\\Users\\User\\Downloads\\test-task",
+    "path" : "test-task",
     "filesCount" : 5
   },
   "subDirectories" : [ {
-    "path" : "C:\\Users\\User\\Downloads\\test-task\\.mvn",
+    "path" : "test-task\\.mvn",
     "filesCount" : 0
   }, {
-    "path" : "C:\\Users\\User\\Downloads\\test-task\\src",
+    "path" : "test-task\\src",
     "filesCount" : 0
   } ]
 }

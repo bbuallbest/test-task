@@ -27,7 +27,8 @@ public class FileSystemExplorer {
     }
 
     public List<Directory> getSubDirectories(Directory directory) {
-        File[] subDirectories = new File(directory.path).listFiles(File::isDirectory);
+        String realPath = resolvePath(directory.path);
+        File[] subDirectories = new File(realPath).listFiles(File::isDirectory);
 
         if (subDirectories == null) {
             return Collections.emptyList();
@@ -68,7 +69,16 @@ public class FileSystemExplorer {
         if (files == null) {
             files = new File[0];
         }
-        return new Directory(path.toString(), files.length);
+        String shortPath = removeSandboxFromPath(path);
+        return new Directory(shortPath, files.length);
+    }
+
+    private String removeSandboxFromPath(Path path) {
+        String originalPath = path.toString();
+        if (originalPath.startsWith(sandboxPath)) {
+            return originalPath.replace(sandboxPath + '\\', "");
+        }
+        return originalPath;
     }
 
     private Path searchDirectoryPathByName(String name) {

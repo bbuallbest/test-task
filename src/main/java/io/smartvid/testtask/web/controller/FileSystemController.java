@@ -15,12 +15,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
 @RestController
-public class DirectoryController {
+public class FileSystemController {
 
     private FileSystemExplorer explorer;
 
     @Autowired
-    public DirectoryController(FileSystemExplorer explorer) {
+    public FileSystemController(FileSystemExplorer explorer) {
         this.explorer = explorer;
     }
 
