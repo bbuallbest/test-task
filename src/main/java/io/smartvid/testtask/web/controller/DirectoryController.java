@@ -24,10 +24,10 @@ public class DirectoryController {
         this.explorer = explorer;
     }
 
-    @GetMapping(value = "/dir/subdirectories")
-    public SubDirectoriesResponse getSubDirectories(@ApiParam(value = "Name of the directory") @RequestParam String dir) {
-        dir = decode(dir);
-        Directory directory = explorer.searchDirectoryByName(dir);
+        @GetMapping(value = "/dir/subdirectories")
+    public SubDirectoriesResponse getSubDirectories(@ApiParam(value = "Name of the directory") @RequestParam String name) {
+        name = decode(name);
+        Directory directory = explorer.searchDirectoryByName(name);
         List<Directory> subDirectories = explorer.getSubDirectories(directory);
         return new SubDirectoriesResponse(directory, subDirectories);
     }
