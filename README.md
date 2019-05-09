@@ -35,7 +35,7 @@ It could be changed in `/src/main/resources/application.properties` file.
 }
 ```
 
-3 GET `http://localhost:8080/file/attributes?path=test-task%5CHELP.md`
+3. GET `http://localhost:8080/file/attributes?path=test-task%5CHELP.md`
 ```json
 {
   "directory" : false,
