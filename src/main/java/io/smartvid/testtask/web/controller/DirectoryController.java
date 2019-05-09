@@ -33,14 +33,14 @@ public class DirectoryController {
     }
 
     @GetMapping(value = "/dir/files")
-    public FilesResponse getFiles(@ApiParam(value = "Path to the directory") @RequestParam String path) {
+    public FilesResponse getFiles(@ApiParam(value = "Url encoded path to the directory placed inside sandbox") @RequestParam String path) {
         path = decode(path);
         List<String> files = explorer.getFileNamesByPath(path);
         return new FilesResponse(path, files);
     }
 
     @GetMapping(value = "/file/attributes")
-    public BasicFileAttributes getFileAttributes(@ApiParam(value = "Path to the file") @RequestParam String path) {
+    public BasicFileAttributes getFileAttributes(@ApiParam(value = "Url encoded path to the file placed inside sandbox") @RequestParam String path) {
         path = decode(path);
         return explorer.getFileAttributes(path);
     }
@@ -49,7 +49,7 @@ public class DirectoryController {
         try {
             return URLDecoder.decode(path, StandardCharsets.UTF_8.displayName());
         } catch (UnsupportedEncodingException e) {
-            return null;
+            return path;
         }
     }
 }

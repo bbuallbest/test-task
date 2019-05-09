@@ -1,6 +1,7 @@
 package io.smartvid.testtask.service;
 
 import io.smartvid.testtask.model.Directory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -17,7 +18,8 @@ import java.util.stream.Stream;
 @Service
 public class FileSystemExplorer {
 
-    private static final String SANDBOX_PATH = "C:\\Users\\User\\Downloads";
+    @Value("${sandbox.root}")
+    private String sandboxPath;
 
     public Directory searchDirectoryByName(String name) {
         Path path = searchDirectoryPathByName(name);
@@ -37,7 +39,8 @@ public class FileSystemExplorer {
     }
 
     public List<String> getFileNamesByPath(String path) {
-        File[] files = new File(path).listFiles(File::isFile);
+        String realPath = resolvePath(path);
+        File[] files = new File(realPath).listFiles(File::isFile);
         if (files == null) {
             files = new File[0];
         }
@@ -48,11 +51,16 @@ public class FileSystemExplorer {
 
     public BasicFileAttributes getFileAttributes(String path) {
         try {
-            Path filePath = Paths.get(path);
+            String realPath = resolvePath(path);
+            Path filePath = Paths.get(realPath);
             return Files.readAttributes(filePath, BasicFileAttributes.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String resolvePath(String path) {
+        return sandboxPath + File.separator + path;
     }
 
     private Directory convertPathToDirectory(Path path) {
@@ -65,7 +73,7 @@ public class FileSystemExplorer {
 
     private Path searchDirectoryPathByName(String name) {
         try {
-            return Files.walk(Paths.get(SANDBOX_PATH))
+            return Files.walk(Paths.get(sandboxPath))
                     .filter(Files::isDirectory)
                     .filter(path -> path.getFileName().toString().equalsIgnoreCase(name.trim()))
                     .findFirst()
