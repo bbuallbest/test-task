@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +44,15 @@ public class FileSystemExplorer {
         return Stream.of(files)
                 .map(File::getName)
                 .collect(Collectors.toList());
+    }
+
+    public BasicFileAttributes getFileAttributes(String path) {
+        try {
+            Path filePath = Paths.get(path);
+            return Files.readAttributes(filePath, BasicFileAttributes.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Directory convertPathToDirectory(Path path) {
